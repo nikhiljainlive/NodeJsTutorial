@@ -1,21 +1,28 @@
-const EventEmitter = require('events')
+const readline = require('readline')
 const { sum } = require('./tutorial')
-const Person = require('./Person')
 
-const eventEmitter = new EventEmitter()
-eventEmitter.on('tutorial', (num1, num2) => {
-    console.log('tutorial event has occurred', sum(num1, num2))
+const readlineInterface = readline.createInterface(input = process.stdin, output = process.stdout)
+
+const firstNum = Math.round(Math.random() * 100 + 1)
+const secondNum = Math.round(Math.random() * 100 + 1)
+const answer = sum(firstNum, secondNum)
+
+readlineInterface.question(`What is the sum of ${firstNum} + ${secondNum}?\n`, (userInput) => {
+    if (answer == userInput.trim()) {
+        readlineInterface.close()
+    } else {
+        readlineInterface.setPrompt("Your answer is incorrect. Try again!\n")
+        readlineInterface.prompt()
+        readlineInterface.on('line', (newAnswer) => {
+            if (answer == newAnswer.trim()) readlineInterface.close()
+            else {
+                readlineInterface.setPrompt(`Your answer of ${newAnswer} is incorrect. Try again!\n`)
+                readlineInterface.prompt()
+            }
+        })
+    }
 })
 
-eventEmitter.emit('tutorial', 1, 2)
-
-let nick = new Person("Nick")
-let neo = new Person("Neo")
-neo.on('name', () => console.log("My name is ", neo.name))
-
-nick.on('name', () => {
-    console.log("My name is ", nick.name)
+readlineInterface.on("close", () => {
+    console.log("Your answer is correct!")
 })
-
-nick.emit('name')
-neo.emit('name')
