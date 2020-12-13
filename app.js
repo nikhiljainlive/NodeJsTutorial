@@ -1,28 +1,60 @@
-const readline = require('readline')
-const { sum } = require('./tutorial')
+const fs = require('fs')
 
-const readlineInterface = readline.createInterface(input = process.stdin, output = process.stdout)
+const fileName = "example.txt"
+fs.writeFile(fileName, "This is a file", (error) => {
+    if (error)
+        console.error(error)
+    else
+        console.log("Successfully created file")
+})
 
-const firstNum = Math.round(Math.random() * 100 + 1)
-const secondNum = Math.round(Math.random() * 100 + 1)
-const answer = sum(firstNum, secondNum)
+fs.readFile(fileName, "UTF-8", (error, data) => {
+    if (error)
+        console.error(error);
 
-readlineInterface.question(`What is the sum of ${firstNum} + ${secondNum}?\n`, (userInput) => {
-    if (answer == userInput.trim()) {
-        readlineInterface.close()
-    } else {
-        readlineInterface.setPrompt("Your answer is incorrect. Try again!\n")
-        readlineInterface.prompt()
-        readlineInterface.on('line', (newAnswer) => {
-            if (answer == newAnswer.trim()) readlineInterface.close()
-            else {
-                readlineInterface.setPrompt(`Your answer of ${newAnswer} is incorrect. Try again!\n`)
-                readlineInterface.prompt()
-            }
+    if (data)
+        console.log(data)
+})
+
+fs.mkdir("hello", (error) => {
+    if (error) console.error(error);
+    else {
+        console.log("successfully created the folder")
+        fs.writeFile("./hello/a.txt", "This is A file", error => {
+            if (error) console.error(error);
+        })
+        fs.writeFile("./hello/b.txt", "This is B file", error => {
+            if (error) console.error(error);
         })
     }
 })
 
-readlineInterface.on("close", () => {
-    console.log("Your answer is correct!")
+fs.readdir("hello", "utf8", (error, files) => {
+    if (error) console.error(error);
+    else {
+        for (let file of files) {
+            fs.unlink(`./hello/${file}`, error => {
+                if (error) console.log(error)
+            })
+        }
+    }
+})
+
+fs.rmdir("hello", (error) => {
+    if (error) console.error(error);
+})
+
+const newFileName = "example1.txt"
+
+fs.rename(fileName, newFileName, (error) => {
+    if (error) console.error(error);
+})
+
+
+fs.appendFile(newFileName, "\nNew Data appended", (error) => {
+    if (error) console.error(error);
+})
+
+fs.unlink(newFileName, error => {
+    if (error) console.error(error);
 })
