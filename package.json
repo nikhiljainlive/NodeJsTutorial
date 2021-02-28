@@ -1,0 +1,22 @@
+{
+  "name": "nodejsprograms",
+  "version": "1.0.0",
+  "description": "learning node js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikhiljainlive/NodeJsTutorial.git"
+  },
+  "author": "Nikhil Jain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nikhiljainlive/NodeJsTutorial/issues"
+  },
+  "homepage": "https://github.com/nikhiljainlive/NodeJsTutorial#readme",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
