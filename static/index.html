@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <form action="/" method="POST">
+    <form action="/" method="POST" id="form">
         <div>
             <label for="email">Email Address: </label>
             <input type="email" class="form-control" name="email">
@@ -20,5 +20,25 @@
 </body>
 
 <script src="/public/js/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(() => {
+        $('#form').submit((event) => {
+            event.preventDefault()
+            $.ajax({
+                url: '/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify($('#form').serializeArray()),
+                success: (response) => {
+                    console.log('successfully posted the data')
+                    console.log(response)
+                }
+
+            })
+        })
+    })
+</script>
+
 
 </html>
