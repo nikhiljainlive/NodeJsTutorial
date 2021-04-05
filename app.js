@@ -1,6 +1,9 @@
 const express = require('express')
 const path = require('path')
 const app = express()
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/public', express.static(path.join(__dirname, 'static')))
 
@@ -8,18 +11,13 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'static', 'index.html'))
 })
 
-app.get('/example', (req, res) => {
-    res.send("hitting example route")
-})
+app.post('/', (req, res) => {
+    console.log(req.body)
+    console.log(req.body.email)
+    console.log(req.body.pwd)
 
-app.get('/example/:name/:age', (req, res) => {
-    console.log(req.params.name)
-    console.log(req.params.age)
-    console.log(req.query)
-    res.send("example with route params " + req.params.name + " " + req.params.age + "<br>Your query paramaters " + req.query.name)
+    // TODO :: do something with email and password
+    res.send('successfully posted data')
 })
 
 app.listen(3000)
-
-
-// TODO :implement express with body parser
