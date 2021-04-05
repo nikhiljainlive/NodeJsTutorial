@@ -25,16 +25,22 @@
     $(document).ready(() => {
         $('#form').submit((event) => {
             event.preventDefault()
+            var result = {};
+            $.each($('#form').serializeArray(), function() {
+                result[this.name] = this.value;
+            });
+
+            console.log(JSON.stringify(result))
+
             $.ajax({
                 url: '/',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify($('#form').serializeArray()),
+                data: JSON.stringify(result),
                 success: (response) => {
-                    console.log('successfully posted the data')
                     console.log(response)
-                }
 
+                }
             })
         })
     })
