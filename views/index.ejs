@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Search Results</title>
+        <link rel="stylesheet" href="public/css/main.css">
+    </head>
+
+    <body>
+        <div class="content">
+            <% if (data.isLoggedIn) { %>
+                <h1>You are logged in as : <%= data.username %></h1>
+            <% } %>
+            <h2>You Searched For : <%= data.userQuery %></h2>
+            <ul>
+                <% data.searchResults.forEach(result => {  %>
+                    <li><%= result %></li>
+                    <%  }) %>
+            </ul>
+        </div>
+    </body>
+
+    <script src="/public/js/main.js"></script>
+</html>
