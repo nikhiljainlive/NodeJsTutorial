@@ -1,24 +1,27 @@
 const express = require('express')
 const path = require('path')
 const app = express()
-const bodyParser = require('body-parser')
 
 app.use('/public', express.static(path.join(__dirname, 'static')))
-app.set('view engine', 'ejs')
+// middleware
+app.use(express.json())
 
-// app.use('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'static', 'index.html'))
-// })
+// custom middleware
+app.use('/hello', (req, res, next) => {
+    console.log(req.url, req.method)
+    next()
+})
 
-app.use('/:userQuery', (req, res) => {
-    res.render('index', {
-        data: {
-            userQuery: req.params.userQuery,
-            searchResults: ['book1', 'book2', 'book3'],
-            isLoggedIn: true,
-            username: "nikhiljainlive"
-        }
-    })
+// custom middleware function
+const Logger = (req, res, next) => {
+    console.log(`${new Date().toISOString()} : Url ${req.url} : Method ${req.method} is hit`);
+    next()
+}
+
+app.use(Logger)
+
+app.use('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'static', 'index.html'))
 })
 
 app.listen(3000)
